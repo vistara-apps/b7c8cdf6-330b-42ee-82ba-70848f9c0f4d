@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "frame": {
+    "version": "1",
+    "name": "SerenePulse",
+    "subtitle": "Built with Zara",
+    "description": "SerenePulse is a Base Mini App built with Zara.",
+    "iconUrl": "https://0co.to/images/zara-2.png",
+    "homeUrl": "https://b7c8cdf6330b42ee82ba70848f9c0f4d-qqzn.vercel.app",
+    "splashImageUrl": "https://b7c8cdf6330b42ee82ba70848f9c0f4d-qqzn.vercel.app/splash.png",
+    "splashBackgroundColor": "#000000",
+    "heroImageUrl": "https://b7c8cdf6330b42ee82ba70848f9c0f4d-qqzn.vercel.app/image.png",
+    "tagline": "SerenePulse",
+    "screenshotUrls": [
+      "https://b7c8cdf6330b42ee82ba70848f9c0f4d-qqzn.vercel.app/screenshot.png",
+      "https://b7c8cdf6330b42ee82ba70848f9c0f4d-qqzn.vercel.app/screenshot.png"
+    ],
+    "primaryCategory": "social",
+    "tags": [
+      "base",
+      "miniapp",
+      "onchainkit"
+    ],
+    "webhookUrl": "https://b7c8cdf6330b42ee82ba70848f9c0f4d-qqzn.vercel.app/api/webhook"
+  }
+}
