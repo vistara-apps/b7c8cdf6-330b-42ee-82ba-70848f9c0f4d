@@ -61,7 +61,12 @@ export function StressAssessment({ onMeditationSelected, onBack }: StressAssessm
 
   const getRecommendedMeditation = () => {
     if (!selectedStressLevel) return null
-    return stressMeditations.find(m => m.stressLevel === selectedStressLevel)
+    const meditation = stressMeditations.find(m => m.stressLevel === selectedStressLevel)
+    return meditation ? {
+      ...meditation,
+      isPremium: false,
+      costInCredits: 0
+    } : null
   }
 
   const getStressLevelText = (level: number) => {
