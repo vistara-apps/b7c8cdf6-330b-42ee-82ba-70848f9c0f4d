@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useMiniKit } from '@coinbase/minikit'
+import { useMiniKit } from '@coinbase/onchainkit/minikit'
 import { WelcomeMessage } from '../components/WelcomeMessage'
 import { StressAssessment } from '../components/StressAssessment'
 import { MeditationPlayer } from '../components/MeditationPlayer'

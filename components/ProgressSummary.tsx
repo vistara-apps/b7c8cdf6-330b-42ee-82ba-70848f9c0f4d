@@ -1,5 +1,7 @@
 'use client'
 
+import { getUserCredits } from '../lib/utils'
+
 interface ProgressSummaryProps {
   sessions: any[]
   onBack: () => void
@@ -8,6 +10,8 @@ interface ProgressSummaryProps {
 export function ProgressSummary({ sessions, onBack }: ProgressSummaryProps) {
   const totalSessions = sessions.length
   const totalMinutes = Math.round(sessions.reduce((acc, session) => acc + (session.duration || 0), 0) / 60)
+  const userCredits = getUserCredits()
+  const totalCreditsSpent = sessions.reduce((acc, session) => acc + (session.costInCredits || 0), 0)
   
   // Calculate mood improvement
   const sessionsWithMood = sessions.filter(s => s.moodBefore && s.moodAfter)
@@ -134,7 +138,7 @@ export function ProgressSummary({ sessions, onBack }: ProgressSummaryProps) {
             Total Sessions
           </div>
         </div>
-        
+
         <div className="card text-center">
           <div className="text-2xl font-bold text-green-600 mb-1">
             {totalMinutes}
@@ -143,22 +147,22 @@ export function ProgressSummary({ sessions, onBack }: ProgressSummaryProps) {
             Minutes Meditated
           </div>
         </div>
-        
+
+        <div className="card text-center">
+          <div className="text-2xl font-bold text-yellow-600 mb-1">
+            {userCredits.toFixed(2)}
+          </div>
+          <div className="text-sm text-gray-600">
+            Credits Remaining
+          </div>
+        </div>
+
         <div className="card text-center">
           <div className="text-2xl font-bold text-purple-600 mb-1">
             {currentStreak}
           </div>
           <div className="text-sm text-gray-600">
             Day Streak
-          </div>
-        </div>
-        
-        <div className="card text-center">
-          <div className="text-2xl font-bold text-orange-600 mb-1">
-            {recentSessions.length}
-          </div>
-          <div className="text-sm text-gray-600">
-            This Week
           </div>
         </div>
       </div>

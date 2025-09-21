@@ -3,6 +3,8 @@ export interface User {
   createdAt: string
   lastActiveAt: string
   credits: number
+  totalSessions: number
+  premiumSessions: number
 }
 
 export interface Session {

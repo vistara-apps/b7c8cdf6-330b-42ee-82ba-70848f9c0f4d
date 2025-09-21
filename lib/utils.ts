@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwindcss-merge'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -96,5 +96,37 @@ export function getSessionsFromStorage(): any[] {
   } catch (error) {
     console.error('Failed to load sessions:', error)
     return []
+  }
+}
+
+export function getUserCredits(): number {
+  try {
+    return parseInt(localStorage.getItem('serenepulse-credits') || '10') // Start with 10 free credits
+  } catch (error) {
+    console.error('Failed to load credits:', error)
+    return 10
+  }
+}
+
+export function deductCredits(amount: number): boolean {
+  try {
+    const currentCredits = getUserCredits()
+    if (currentCredits >= amount) {
+      localStorage.setItem('serenepulse-credits', (currentCredits - amount).toString())
+      return true
+    }
+    return false
+  } catch (error) {
+    console.error('Failed to deduct credits:', error)
+    return false
+  }
+}
+
+export function addCredits(amount: number): void {
+  try {
+    const currentCredits = getUserCredits()
+    localStorage.setItem('serenepulse-credits', (currentCredits + amount).toString())
+  } catch (error) {
+    console.error('Failed to add credits:', error)
   }
 }

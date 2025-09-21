@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getUserCredits, deductCredits } from '../lib/utils'
 
 interface MeditationLibraryProps {
   onMeditationSelected: (meditation: any) => void
@@ -100,16 +101,36 @@ const meditationCategories = [
 
 export function MeditationLibrary({ onMeditationSelected, onBack }: MeditationLibraryProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [userCredits, setUserCredits] = useState(10)
+
+  useEffect(() => {
+    setUserCredits(getUserCredits())
+  }, [])
 
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId)
   }
 
   const handleMeditationSelect = (meditation: any, category: any) => {
+    if (meditation.isPremium && userCredits < 0.10) {
+      alert('Insufficient credits! You need at least 0.10 credits for premium meditations.')
+      return
+    }
+
+    if (meditation.isPremium) {
+      const success = deductCredits(0.10)
+      if (!success) {
+        alert('Failed to deduct credits. Please try again.')
+        return
+      }
+      setUserCredits(prev => prev - 0.10)
+    }
+
     const fullMeditation = {
       ...meditation,
       audioUrl: `/audio/${meditation.id}.mp3`,
-      category: category.name
+      category: category.name,
+      costInCredits: meditation.isPremium ? 0.10 : 0
     }
     onMeditationSelected(fullMeditation)
   }
@@ -125,16 +146,21 @@ export function MeditationLibrary({ onMeditationSelected, onBack }: MeditationLi
     return (
       <div className="min-h-screen flex flex-col p-6 bg-gradient-to-b from-gray-50 to-white">
         {/* Header */}
-        <div className="flex items-center mb-8">
-          <button
-            onClick={onBack}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-          >
-            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h1 className="text-xl font-semibold text-gray-900 ml-4">Meditation Library</h1>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center">
+            <button
+              onClick={onBack}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+            >
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <h1 className="text-xl font-semibold text-gray-900 ml-4">Meditation Library</h1>
+          </div>
+          <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+            {userCredits.toFixed(2)} credits
+          </div>
         </div>
 
         {/* Categories */}

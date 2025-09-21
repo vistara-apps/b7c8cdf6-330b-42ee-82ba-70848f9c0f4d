@@ -1,5 +1,8 @@
 'use client'
 
+import { useState, useEffect } from 'react'
+import { getUserCredits } from '../lib/utils'
+
 interface MainMenuButtonsProps {
   onStartStressMeditation: () => void
   onBrowseMeditations: () => void
@@ -13,6 +16,12 @@ export function MainMenuButtons({
   onViewProgress,
   sessionCount
 }: MainMenuButtonsProps) {
+  const [userCredits, setUserCredits] = useState(10)
+
+  useEffect(() => {
+    setUserCredits(getUserCredits())
+  }, [])
+
   return (
     <div className="min-h-screen flex flex-col p-6 bg-gradient-to-b from-gray-50 to-white">
       {/* Header */}
@@ -23,7 +32,10 @@ export function MainMenuButtons({
           </svg>
         </div>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">SerenePulse</h1>
-        <p className="text-gray-600">How can we help you find peace today?</p>
+        <p className="text-gray-600 mb-4">How can we help you find peace today?</p>
+        <div className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium inline-block">
+          {userCredits.toFixed(2)} credits available
+        </div>
       </div>
 
       {/* Menu Options */}
