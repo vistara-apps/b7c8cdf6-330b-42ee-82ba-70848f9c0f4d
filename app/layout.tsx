@@ -10,7 +10,11 @@ export const metadata: Metadata = {
   description: 'Personalized 1-2 minute micro-meditations based on stress-aware AI',
   keywords: ['meditation', 'stress relief', 'mindfulness', 'mental health'],
   authors: [{ name: 'SerenePulse Team' }],
-  viewport: 'width=device-width, initial-scale=1',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({

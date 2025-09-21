@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useMiniKit } from '@coinbase/minikit'
 import { WelcomeMessage } from '../components/WelcomeMessage'
 import { StressAssessment } from '../components/StressAssessment'
 import { MeditationPlayer } from '../components/MeditationPlayer'
@@ -15,7 +14,7 @@ export default function Home() {
   const [appState, setAppState] = useState<AppState>('welcome')
   const [selectedMeditation, setSelectedMeditation] = useState<any>(null)
   const [userSessions, setUserSessions] = useState<any[]>([])
-  const { context } = useMiniKit()
+  const [userName, setUserName] = useState<string>('Friend')
 
   useEffect(() => {
     // Load user sessions from localStorage
@@ -46,13 +45,13 @@ export default function Home() {
     const newSession = {
       ...sessionData,
       timestamp: new Date().toISOString(),
-      userId: context?.user?.fid || 'anonymous'
+      userId: 'anonymous'
     }
-    
+
     const updatedSessions = [...userSessions, newSession]
     setUserSessions(updatedSessions)
     localStorage.setItem('serenepulse-sessions', JSON.stringify(updatedSessions))
-    
+
     setAppState('menu')
   }
 
@@ -65,9 +64,9 @@ export default function Home() {
     switch (appState) {
       case 'welcome':
         return (
-          <WelcomeMessage 
+          <WelcomeMessage
             onContinue={() => setAppState('menu')}
-            userName={context?.user?.displayName || 'Friend'}
+            userName={userName}
           />
         )
       
